@@ -1,0 +1,33 @@
+#include <iostream>
+
+using namespace std;
+
+const int N = 25;
+bool a[N],ug[N],g[N];
+int n,t;
+
+void dfs(int u)
+{
+    if(u > n) { // 搜完了所有的行 即完成了一种排列
+        t ++;
+        return ;
+    }
+    else{
+        for(int i = 1;i <= n;i ++) // 确定u相当于确定了行 故而只用遍历列
+        {
+            if(!a[i] && !ug[i + u] && !g[n - u + i]) { // 保证它不在同一列 同一对角线 同一反对角线
+                a[i] = ug[u + i] = g[n - u + i] = true;
+                dfs(u + 1); // 如果当前满足了 就继续往前搜 
+                a[i] = ug[i + u] = g[i - u + n] = false; //回溯复原
+            }
+        }
+    } 
+}
+
+int main()
+{
+    cin >> n;
+    dfs(1);
+    cout << t << endl;
+    return 0;
+}
